@@ -2,3 +2,10 @@
 
 
 ReadMe file for Project 1 Info 443 Spring 2023
+
+This codebase consists of files used for the website known as Dub Dumps, created by Sydney Castillo and her teammates Amelia, Nic and Zach, for their final project for INFO 340. The software used for this is a React App. 
+
+
+
+
+
