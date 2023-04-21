@@ -37,7 +37,13 @@ export default function BathroomList(props) {
     let bathroomCards = bathrooms.map(bathroomData => {
         return <BathroomCard key={bathroomData.id} bathroomData={bathroomData} />
     })
-
+    if (bathroomCards.length === 0) {
+        return (
+            <div className="container">
+                <h2 className='map-title' data-testid='no-results'>No Bathrooms Found!</h2>
+            </div>
+        )
+    }
     return (
         <div className="container">
             <div className="row">
