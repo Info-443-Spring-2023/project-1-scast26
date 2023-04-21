@@ -59,28 +59,29 @@ export function StructuredSearch(props) {
 
 
     return (
-        <div><Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" className="hamburger" />
-            <Navbar.Collapse id="responsive-navbar-nav navBar">
-                <Nav className="mr-auto">
-                    <select id="buildingSelect" className="navDropDown" onChange={changeBldg} >
-                        <option value="">Building</option>
-                        {buildings}
-                    </select>
-                    <select id="floorSelect" className="navDropDown" onChange={changeFloor} >
-                        <option value="">Floor</option>
-                        {floors}
-                    </select>
-                    <select id="locationSelect" className="navDropDown" onChange={changeLocation} >
-                        <option value="">Location</option>
-                        {locations}
-                    </select>
-                    <div className="col-auto">
-                        <Link to="/search" id="submitButton" type="submit" className="btn btn-warning" onClick={handleClick}>Search!</Link>
-                    </div>
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
+        <div data-testid="search-wrapper">
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" className="hamburger" />
+                <Navbar.Collapse id="responsive-navbar-nav navBar">
+                    <Nav className="mr-auto">
+                        <select id="buildingSelect" className="navDropDown" onChange={changeBldg} >
+                            <option value="">Building</option>
+                            {buildings}
+                        </select>
+                        <select id="floorSelect" className="navDropDown" onChange={changeFloor} >
+                            <option value="">Floor</option>
+                            {floors}
+                        </select>
+                        <select id="locationSelect" className="navDropDown" onChange={changeLocation} >
+                            <option value="">Location</option>
+                            {locations}
+                        </select>
+                        <div className="col-auto">
+                            <Link to="/search" id="submitButton" type="submit" className="btn btn-warning" onClick={handleClick}>Search!</Link>
+                        </div>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
             <Outlet />
         </div >
     )
