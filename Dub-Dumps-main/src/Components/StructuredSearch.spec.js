@@ -17,6 +17,11 @@ describe('Unit: Structured Search', () => {
         expect(screen.getByTestId("search-wrapper")).toBeInTheDocument();
     });
 
+    // write a test that makes sure that when a user clicks search,
+    // the search button actually triggers callback fn 
+    // see slide 16 from lecture 6
+    
+
     // i think this one (and all the filter tests) is gonna have to be an 
     // integration test, aka we have to import bathroomlist.js in addition
     // app.js -- OH NO MEGHAN!! WE NEED TO MOCK FIREBASE SINCE APP.JS
