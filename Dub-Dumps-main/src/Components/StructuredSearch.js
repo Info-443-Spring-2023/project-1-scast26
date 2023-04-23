@@ -64,15 +64,15 @@ export function StructuredSearch(props) {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" className="hamburger" />
                 <Navbar.Collapse id="responsive-navbar-nav navBar">
                     <Nav className="mr-auto">
-                        <select id="buildingSelect" className="navDropDown" onChange={changeBldg} >
+                        <select id="buildingSelect" className="navDropDown" data-testid='buildingSelect' onChange={changeBldg} >
                             <option value="">Building</option>
                             {buildings}
                         </select>
-                        <select id="floorSelect" className="navDropDown" onChange={changeFloor} >
+                        <select id="floorSelect" className="navDropDown" data-testid='floorSelect' onChange={changeFloor} >
                             <option value="">Floor</option>
                             {floors}
                         </select>
-                        <select id="locationSelect" className="navDropDown" onChange={changeLocation} >
+                        <select id="locationSelect" className="navDropDown" data-testid='locationSelect' onChange={changeLocation} >
                             <option value="">Location</option>
                             {locations}
                         </select>

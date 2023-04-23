@@ -15,11 +15,10 @@ describe('Unit: Sign In button works', () => {
             </Router>
         );
 
-        //click SIgn in button 
+        //click Sign in button 
         userEvent.click(SignIn);
 
         expect(screen.getByText("Sign in here!")).toBeInTheDocument();
 
-    });
-
+    }); 
 });
