@@ -1,24 +1,50 @@
-import { React } from 'react';
-import { MemoryRouter as Router, Routes, Route, Navigate, useNavigate as navigateTo } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+const { createMemoryHistory } = require("history");
+import { Router } from 'react-router-dom';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom'
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import App from './App';
+import SignIn from './SignIn';
 
-import SignIn from './SignIn.js';
-import HomePage from './HomePage.js'
+// Initialize Firebase app with local emulator suite configuration
+const app = initializeApp({
+    projectId: 'test-dub-dumps',
+    apiKey: 'test',
+    databaseURL: 'http://localhost:9000/?ns=test-dub-dumps',
+});
 
-describe('Unit: Sign In button works', () => {
-    test('Sign In leads to Sign in Page', () => {
-        render(
-            <Router>
-                <HomePage/>
-            </Router>
-        );
+// Get Firebase authentication instance
+// const auth = getAuth();
+// connectAuthEmulator(auth, "http://localhost:9099");
 
-        //click Sign in button 
-        userEvent.click(SignIn);
+const history = createMemoryHistory();
 
-        expect(screen.getByText("Sign in here!")).toBeInTheDocument();
+describe('User is signed in', () => {
+    test('User is given indication that they are already logged in', () => {
+        act(() => {
+            render(
+                <Router location={history.location} navigator={history}>
+                    <SignIn currentUser={{ userId: 'Meghan' }} />
+                </Router>
+            );
+        })
+        const loggedInText = screen.getByText('You are already logged in!')
+        expect(loggedInText).toBeInTheDocument;
+    });
+});
 
-    }); 
+describe('User not signed in', () => {
+    test('User is prompted to sign in', () => {
+        act(() => {
+            render(
+                <Router location={history.location} navigator={history}>
+                    <SignIn currentUser={{}} />
+                </Router>
+            );
+        });
+        const loggedInText = screen.getByText('Sign in here!')
+        expect(loggedInText).toBeInTheDocument;
+    });
 });

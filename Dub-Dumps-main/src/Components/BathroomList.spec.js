@@ -6,8 +6,6 @@ import userEvent from '@testing-library/user-event';
 import BathroomList from './BathroomList';
 
 describe('Unit: BathroomPage', () => {
-
-
     test('No results message shows when there are no matching bathrooms', () => {
         render(
             <Router>
@@ -16,7 +14,6 @@ describe('Unit: BathroomPage', () => {
         );
         expect(screen.getByTestId('no-results')).toBeInTheDocument()
     });
-
 
     // write a line that says to expect (all data ) to be equal to the data , fix line 28 to fit "no filters are applied"
     test('When no filters are applied, show all bathrooms', () => {
@@ -32,6 +29,5 @@ describe('Unit: BathroomPage', () => {
         );
         const numBathroomCards = screen.getAllByTestId('bathroom-card')
         expect(numBathroomCards.length).toBe(3)
-
     });
 });

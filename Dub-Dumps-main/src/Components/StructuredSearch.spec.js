@@ -1,6 +1,6 @@
 import { React } from 'react';
 import { MemoryRouter as Router, Routes, Route, Navigate, useNavigate as navigateTo } from 'react-router-dom';
-import { render, screen, fireEvent, getAllByTestId } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom'
 import StructuredSearch from './StructuredSearch';
@@ -25,16 +25,100 @@ const data = [
     { id: 3, 'building': 'ODE', 'floor': 'Second Floor', 'location': 'North' }
 ]
 
-describe('Structured Search', () => {
-    // test('to render without errors', () => {
-    //     render(
-    //         <Router>
-    //             <StructuredSearch data={[]} />
-    //         </Router>
-    //     );
-    //     expect(screen.getByTestId("search-wrapper")).toBeInTheDocument();
-    // });
+describe('Structured Search renders correctly', () => {
+    test('to render without errors', () => {
+        render(
+            <Router>
+                <StructuredSearch data={[]} />
+            </Router>
+        );
+        expect(screen.getByTestId("search-wrapper")).toBeInTheDocument();
+    });
+});
 
+describe('Filters have correct default value', () => {
+    test('Building filter has correct default value', () => {
+        const callbackFn = jest.fn();
+
+        render(
+            <Router>
+                <StructuredSearch data={data} filterCallback={callbackFn} />
+            </Router>
+        );
+        const defaultValue = screen.getByTestId('currBuildingValue')
+        expect(defaultValue.textContent).toBe('Building')
+    });
+
+    test('Floor filter has correct default value', () => {
+        const callbackFn = jest.fn();
+
+        render(
+            <Router>
+                <StructuredSearch data={data} filterCallback={callbackFn} />
+            </Router>
+        );
+        const defaultValue = screen.getByTestId('currFloorValue')
+        expect(defaultValue.textContent).toBe('Floor')
+    });
+
+    test('Location filter has correct default value', () => {
+        const callbackFn = jest.fn();
+
+        render(
+            <Router>
+                <StructuredSearch data={data} filterCallback={callbackFn} />
+            </Router>
+        );
+        const defaultValue = screen.getByTestId('currLocValue')
+        expect(defaultValue.textContent).toBe('Location')
+    });
+});
+
+describe('Filter values can be changed', () => {
+    test('Building filter can be changed', () => {
+        const callbackFn = jest.fn();
+        render(
+            <Router>
+                <StructuredSearch data={data} filterCallback={callbackFn} />
+            </Router>
+        );
+        const buildingSelect = screen.getByTestId('buildingSelect');
+        expect(buildingSelect).toHaveTextContent('Building');
+
+        fireEvent.change(buildingSelect, { target: { value: 'RAI' } })
+        expect(buildingSelect).toHaveTextContent('RAI');
+    });
+
+    test('Floor filter can be changed', () => {
+        const callbackFn = jest.fn();
+        render(
+            <Router>
+                <StructuredSearch data={data} filterCallback={callbackFn} />
+            </Router>
+        );
+        const floorSelect = screen.getByTestId('floorSelect');
+        expect(floorSelect).toHaveTextContent('Floor');
+
+        fireEvent.change(floorSelect, { target: { value: 'First Floor' } })
+        expect(floorSelect).toHaveTextContent('First Floor');
+    });
+
+    test('Location filter can be changed', () => {
+        const callbackFn = jest.fn();
+        render(
+            <Router>
+                <StructuredSearch data={data} filterCallback={callbackFn} />
+            </Router>
+        );
+        const locationSelect = screen.getByTestId('locationSelect');
+        expect(locationSelect).toHaveTextContent('Location');
+
+        fireEvent.change(locationSelect, { target: { value: 'North' } })
+        expect(locationSelect).toHaveTextContent('North');
+    });
+});
+
+describe('Filters work correctly', () => {
     test('Building filter works correctly', () => {
         render(
             <App data={data} />
@@ -48,8 +132,11 @@ describe('Structured Search', () => {
         const buildingSelect = screen.getByTestId('buildingSelect');
         const applyButton = screen.getByText('Search!');
 
-        fireEvent.change(buildingSelect, { target: { value: 'ODE' } });
-        fireEvent.click(applyButton);
+        act(() => {
+            fireEvent.change(buildingSelect, { target: { value: 'ODE' } });
+            fireEvent.click(applyButton);
+        })
+
 
         const bathroomList = screen.getAllByTestId("bathroom-card");
         expect(bathroomList.length).toBe(1);
@@ -59,7 +146,7 @@ describe('Structured Search', () => {
         render(
             <App data={data} />
         );
-    
+
         // For some reason, app isn't starting on the home page
         // const findABathroomButton = screen.getByTestId('toSearchPage');
         // fireEvent.click(findABathroomButton);
@@ -68,8 +155,11 @@ describe('Structured Search', () => {
         const floorSelect = screen.getByTestId('floorSelect');
         const applyButton = screen.getByText('Search!');
 
-        fireEvent.change(floorSelect, { target: { value: 'Second Floor' } });
-        fireEvent.click(applyButton);
+        act(() => {
+            fireEvent.change(floorSelect, { target: { value: 'Second Floor' } });
+            fireEvent.click(applyButton);
+        })
+
 
         const bathroomList = screen.getAllByTestId("bathroom-card");
         expect(bathroomList.length).toBe(2);
@@ -79,7 +169,7 @@ describe('Structured Search', () => {
         render(
             <App data={data} />
         );
-    
+
         // For some reason, app isn't starting on the home page
         // const findABathroomButton = screen.getByTestId('toSearchPage');
         // fireEvent.click(findABathroomButton);
@@ -88,8 +178,10 @@ describe('Structured Search', () => {
         const locationSelect = screen.getByTestId('locationSelect');
         const applyButton = screen.getByText('Search!');
 
-        fireEvent.change(locationSelect, { target: { value: 'North' } });
-        fireEvent.click(applyButton);
+        act(() => {
+            fireEvent.change(locationSelect, { target: { value: 'North' } });
+            fireEvent.click(applyButton);
+        });
 
         const bathroomList = screen.getAllByTestId("bathroom-card");
         expect(bathroomList.length).toBe(2);
