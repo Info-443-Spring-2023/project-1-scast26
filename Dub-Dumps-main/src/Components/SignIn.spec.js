@@ -40,7 +40,7 @@ describe('User not signed in', () => {
         act(() => {
             render(
                 <Router location={history.location} navigator={history}>
-                    <SignIn currentUser={{}} />
+                    <SignIn currentUser={{userID: null}} />
                 </Router>
             );
         });

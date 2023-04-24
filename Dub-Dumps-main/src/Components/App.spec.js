@@ -21,8 +21,43 @@ const history = createMemoryHistory();
 
 describe('App component', () => {
     test('User can successfully log in', () => {
-        render(
-            <App data={[]} />
-        );
+        // render(
+        //     <App data={[]} />
+        // );
+
+        const firebaseUser = {
+            //fill in userid
+            //fill in Display name
+            //fill in email
+        };
+
+        //need to define the user trying to sign in?
+        const user = ;
+
+        onAuthStateChanged({}, firebaseUser, setCurrentUser);
+
+        const loggedInText = screen.getByText('Find a Bathroom!');
+        expect(loggedInText).toBeInTheDocument;
+
+    });
+
+
+    test('User cannot successfully log in', () => {
+      
+
+        const firebaseUser = {
+            //fill in userid
+            //fill in Display name
+            //fill in email
+        };
+
+        //need to define the user trying to sign in?
+        const user = ;
+
+        onAuthStateChanged({}, firebaseUser, setCurrentUser);
+
+        const loggedInText = screen.getByText('Create account');
+        expect(loggedInText).toBeInTheDocument;
+
     });
 });
