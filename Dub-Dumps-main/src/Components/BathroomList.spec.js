@@ -38,7 +38,6 @@ describe('Unit: BathroomList', () => {
                 <BathroomList data={data} />
             </Router>
         );
-        screen.debug();
         const renderedImg = document.querySelector('img')
         expect(renderedImg.src).toContain('bathroom1.jpg')
     });
