@@ -2,20 +2,18 @@ import { React } from 'react';
 import { MemoryRouter as Router, Routes, Route, Navigate, useNavigate as navigateTo } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import userEvent from '@testing-library/user-event';
 import BathroomList from './BathroomList';
 
-describe('Unit: BathroomPage', () => {
+describe('Unit: BathroomList', () => {
     test('No results message shows when there are no matching bathrooms', () => {
         render(
             <Router>
                 <BathroomList data={[]} />
             </Router>
         );
-        expect(screen.getByTestId('no-results')).toBeInTheDocument()
+        expect(screen.getByTestId('no-results')).toBeInTheDocument();
     });
 
-    // write a line that says to expect (all data ) to be equal to the data , fix line 28 to fit "no filters are applied"
     test('When no filters are applied, show all bathrooms', () => {
         const data = [
             { id: 1, 'building': 'RAI', 'floor': 'First Floor', 'location': 'North' },
@@ -27,7 +25,21 @@ describe('Unit: BathroomPage', () => {
                 <BathroomList data={data} />
             </Router>
         );
-        const numBathroomCards = screen.getAllByTestId('bathroom-card')
-        expect(numBathroomCards.length).toBe(3)
+        const numBathroomCards = screen.getAllByTestId('bathroom-card');
+        expect(numBathroomCards.length).toBe(3);
+    });
+
+    test('Bathroom cards render correct image', () => {
+        const data = [
+            { id: 1, 'src': 'bathroom1.jpg', 'building': 'RAI', 'floor': 'First Floor', 'location': 'North' }
+        ]
+        render(
+            <Router>
+                <BathroomList data={data} />
+            </Router>
+        );
+        screen.debug();
+        const renderedImg = document.querySelector('img')
+        expect(renderedImg.src).toContain('bathroom1.jpg')
     });
 });

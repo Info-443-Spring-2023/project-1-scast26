@@ -118,6 +118,23 @@ describe('Filter values can be changed', () => {
 });
 
 describe('Filters work correctly', () => {
+    test('Button functions correctly', () => {
+        render(
+            <Router>
+                <StructuredSearch data={data} filterCallback={applyFilter} />
+            </Router>
+        );
+
+        const applyButton = screen.getByText('Search!');
+
+        act(() => {
+            fireEvent.change(buildingSelect, { target: { value: 'ODE' } });
+            fireEvent.click(applyButton);
+        })
+
+        expect(applyButton).toBeClicked;
+    });
+
     test('Building filter works correctly', () => {
         render(
             <Router>
