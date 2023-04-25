@@ -13,3 +13,17 @@ This codebase consists of files used for the website known as Dub Dumps, created
 
 ## Activity Diagram
 ![img](images/DubDumps-Activity-Diagram.png)
+
+
+# Checkpoint 3 Tests
+
+To run the tests for this repository, here are the steps after saving the repository locally:
+    1. On the command line, navigate to the repository folder.
+    2. Navigate to the "Dub-Dumps-main" folder.
+    3. Run "npm install". There may be warning messages that appear but they should not impact the ability to the run the tests.
+    4. Run "npm test".
+
+
+Code Coverage we were able to achieve (having issues running the code coverage again):
+
+![img](images/coverage.png)
