@@ -26,4 +26,4 @@ To run the tests for this repository, here are the steps after saving the reposi
 
 Code Coverage we were able to achieve (having issues running the code coverage again):
 
-![img](images/coverage.png)
+
