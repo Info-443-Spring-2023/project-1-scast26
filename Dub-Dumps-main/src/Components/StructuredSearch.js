@@ -1,8 +1,6 @@
-import { setSelectionRange } from '@testing-library/user-event/dist/utils';
-import React, { useState } from 'react'; //import React Component
+import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import { Nav, Navbar } from "react-bootstrap";
 
 export function StructuredSearch(props) {
     const [bldgSelected, setBldg] = useState('');
@@ -25,37 +23,25 @@ export function StructuredSearch(props) {
         props.filterCallback(bldgSelected, floorSelected, locationSelected);
     }
 
-    // Array of buildings
-    let uniqueBuildings = new Set();
-    for (let i = 0; i < props.data.length; i++) {
-        uniqueBuildings.add(props.data[i].building)
+    // Returns an array of content for a specific filter
+    function createFilterSet(contentType) {
+        const uniqueContent = props.data
+            .map(item => item[contentType])  // map to get an array of the specific content type
+            .filter((value, index, self) => self.indexOf(value) === index);  // filter to remove duplicates
+
+        return uniqueContent.map((contentType) => {
+            return <option key={contentType} value={contentType}>{contentType}</option>
+        })
     }
-    uniqueBuildings = Array.from(uniqueBuildings);
-    const buildings = uniqueBuildings.map((building) => {
-        return <option key={building} value={building}>{building}</option>
-    })
+
+    // Array of buildings
+    const buildings = createFilterSet("building")
 
     // Array of floors
-    let uniqueFloors = new Set();
-    for (let i = 0; i < props.data.length; i++) {
-        uniqueFloors.add(props.data[i].floor)
-    }
-    uniqueFloors = Array.from(uniqueFloors);
-
-    const floors = uniqueFloors.map((floor) => {
-        return <option key={floor} value={floor}>{floor}</option>
-    })
+    const floors = createFilterSet("floor")
 
     // Array of Locations
-    let uniqueLocations = new Set();
-    for (let i = 0; i < props.data.length; i++) {
-        uniqueLocations.add(props.data[i].location)
-    }
-    uniqueLocations = Array.from(uniqueLocations);
-
-    const locations = uniqueLocations.map((location) => {
-        return <option key={location} value={location}>{location}</option>
-    })
+    const locations = createFilterSet("location")
 
 
     return (

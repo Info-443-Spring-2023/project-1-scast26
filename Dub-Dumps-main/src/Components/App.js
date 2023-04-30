@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'; //import React Component
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate as navigateTo } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import SignIn from './SignIn.js';
 import BathroomPage from './BathroomPage.js'
@@ -35,8 +35,7 @@ function App(props) {
   }
 
   function applyFilter(bldgName, floorName, locationSelected) {
-    let fullData = props.data;
-    let bldgCards = fullData
+    let bldgCards = props.data;
     if (bldgName !== '') {
       bldgCards = bldgCards.filter(card => (card.building === bldgName))
     }
