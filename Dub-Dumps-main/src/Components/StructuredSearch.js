@@ -40,7 +40,7 @@ export function StructuredSearch(props) {
     // Array of floors
     const floors = createFilterSet("floor")
 
-    // Array of Locations
+    // Array of locations
     const locations = createFilterSet("location")
 
 
