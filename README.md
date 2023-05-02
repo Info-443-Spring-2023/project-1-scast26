@@ -101,6 +101,8 @@ The codeblock above is the non-refactored code from the **StructuredSearch** com
 
 - **Code Smells**: At a quick glance, there are two distinct code smells apparent in the code: duplicated code, and unnecessary loops.
 
+- **Documentation and Readability**: Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as when a user is logged in or logged out.
+
 # Automated Tests
 
 To run the tests for this repository, here are the steps after saving the repository locally:
