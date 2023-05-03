@@ -46,21 +46,7 @@ export function StructuredSearch(props) {
     const [floorSelected, setFloor] = useState('');
     const [locationSelected, setLocation] = useState('');
 
-    const changeBldg = evt => {
-        setBldg(evt.target.value);
-    }
-
-    const changeFloor = evt => {
-        setFloor(evt.target.value);
-    }
-
-    const changeLocation = evt => {
-        setLocation(evt.target.value);
-    }
-
-    const handleClick = evt => {
-        props.filterCallback(bldgSelected, floorSelected, locationSelected);
-    }
+    ...
 
     // Array of buildings
     let uniqueBuildings = new Set();
@@ -100,6 +86,18 @@ export default StructuredSearch;
 The codeblock above is the non-refactored code from the **StructuredSearch** component. This code is the logic that filters the bathroom cards.
 
 - **Code Smells**: At a quick glance, there are two distinct code smells apparent in the code: duplicated code, and unnecessary loops.
+    - Duplicated Code: In the codeblock above, it is quickly apparent that the following lines of code are repeated for each filter (building, floor, location) built into the StructuredSearch component. To refactor this, we turned all of the duplicated code into a function that can be called to populate the array of content for each filter.
+    ```
+    let uniqueBuildings = new Set();
+    for (let i = 0; i < props.data.length; i++) {
+        uniqueBuildings.add(props.data[i].building)
+    }
+    uniqueBuildings = Array.from(uniqueBuildings);
+    const buildings = uniqueBuildings.map((building) => {
+        return <option key={building} value={building}>{building}</option>
+    })
+    ```
+    - Loops: The second, less apparent, code smell we found was an unnecessary loop. In the original code, the `for` loop was being used to loop through `props.data`, adding every unique attribute (building, floor, or location) to the previously defined Set. We later refactored this to completely remove the loop, and instead use native JavaScript functions such as `map()` and `filter()`. The refactored code can be found in the **Refactoring** portion of this report.
 
 - **Documentation and Readability**: Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as when a user is logged in or logged out.
 
