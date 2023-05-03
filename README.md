@@ -98,8 +98,33 @@ The codeblock above is the non-refactored code from the **StructuredSearch** com
     })
     ```
     - Loops: The second, less apparent, code smell we found was an unnecessary loop. In the original code, the `for` loop was being used to loop through `props.data`, adding every unique attribute (building, floor, or location) to the previously defined Set. We later refactored this to completely remove the loop, and instead use native JavaScript functions such as `map()` and `filter()`. The refactored code can be found in the **Refactoring** portion of this report.
+    
+     - Architectural Deficiencies: The lack of documentation and commented code makes understanding the strcuture of the code and how the components interact difficult. The following code component includes an example of code that lacks clarity and detail. In fact, there are two const variables that don't have defined names which make understanding what this function does difficult:
+ 
+   ```
+   function App(props) {
+     const nullUser = { userId: null, userName: null };
 
-- **Documentation and Readability**: Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as when a user is logged in or logged out.
+     const [currentUser, setCurrentUser] = useState(nullUser);
+     const [displayedData, setData] = useState(props.data);
+
+     useEffect(() => {
+
+       const auth = getAuth();
+
+       onAuthStateChanged(auth, (firebaseUser) => {
+         if (firebaseUser) { //is defined, so "logged in"
+           firebaseUser.userId = firebaseUser.uid;
+           setCurrentUser(firebaseUser);
+         }
+         else { //not defined, so logged out
+           setCurrentUser(nullUser);
+         }
+       });
+     })
+  ```
+
+- **Documentation and Readability**: Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as when a user is logged in or logged out. However this is the only instance of documented code. Finding the connection between different components is difficult and requires manually searching through component files to determine the functionality and scope of each one. 
 
 # Automated Tests
 
