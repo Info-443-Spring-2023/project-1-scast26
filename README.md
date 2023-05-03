@@ -55,7 +55,7 @@ export function StructuredSearch(props) {
     }
     uniqueBuildings = Array.from(uniqueBuildings);
     const buildings = uniqueBuildings.map((building) => {
-        return <option key={building} value={building}>{building}</option>
+        return <option key={building} value={building}>{building}</option>;
     })
 
     // Array of floors
@@ -66,7 +66,7 @@ export function StructuredSearch(props) {
     uniqueFloors = Array.from(uniqueFloors);
 
     const floors = uniqueFloors.map((floor) => {
-        return <option key={floor} value={floor}>{floor}</option>
+        return <option key={floor} value={floor}>{floor}</option>;
     })
 
     // Array of Locations
@@ -77,8 +77,10 @@ export function StructuredSearch(props) {
     uniqueLocations = Array.from(uniqueLocations);
 
     const locations = uniqueLocations.map((location) => {
-        return <option key={location} value={location}>{location}</option>
+        return <option key={location} value={location}>{location}</option>;
     })
+
+    ...
 }
 
 export default StructuredSearch;
@@ -94,13 +96,12 @@ The codeblock above is the non-refactored code from the **StructuredSearch** com
     }
     uniqueBuildings = Array.from(uniqueBuildings);
     const buildings = uniqueBuildings.map((building) => {
-        return <option key={building} value={building}>{building}</option>
+        return <option key={building} value={building}>{building}</option>;
     })
     ```
-    - Loops: The second, less apparent, code smell we found was an unnecessary loop. In the original code, the `for` loop was being used to loop through `props.data`, adding every unique attribute (building, floor, or location) to the previously defined Set. We later refactored this to completely remove the loop, and instead use native JavaScript functions such as `map()` and `filter()`. The refactored code can be found in the **Refactoring** portion of this report.
-    
-     - Architectural Deficiencies: The lack of documentation and commented code makes understanding the strcuture of the code and how the components interact difficult. The following code component includes an example of code that lacks clarity and detail. In fact, there are two const variables that don't have defined names which make understanding what this function does difficult:
- 
+    - Loops: The second, less apparent, code smell we found was an unnecessary loop. In the original code, the `for` loop was being used to loop through `props.data`, adding every unique attribute (building, floor, or location) to the previously defined Set. We later refactored this to completely remove the loop, and instead use native JavaScript methods such as `.map()` and `.filter()`. The refactored code can be found in the **Refactoring the Code** portion of this report.
+
+- **Documentation and Readability**: The lack of documentation and commented code makes understanding the strcuture of the code and how the components interact difficult. The following code component includes an example of code that lacks clarity and detail. In fact, there are two const variables that don't have defined names which make understanding what this function does difficult:
    ```
    function App(props) {
      const nullUser = { userId: null, userName: null };
@@ -123,10 +124,13 @@ The codeblock above is the non-refactored code from the **StructuredSearch** com
        });
      })
   ```
-
-- **Documentation and Readability**: Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as when a user is logged in or logged out. However this is the only instance of documented code. Finding the connection between different components is difficult and requires manually searching through component files to determine the functionality and scope of each one. 
+    Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as when a user is logged in or logged out. However this is the only instance of documented code. Finding the connection between different components is difficult and requires manually searching through component files to determine the functionality and scope of each one. 
 
 # Automated Tests
+
+## Figure 4: Automated Test Coverage Report
+![img](images/coverage.png)
+The image above is the code coverage report we were able to achieve using the automated tests we wrote.
 
 To run the tests for this repository, here are the steps after saving the repository locally:
 1. On the command line, navigate to the repository folder.
@@ -134,6 +138,69 @@ To run the tests for this repository, here are the steps after saving the reposi
 3. Run "npm install". There may be warning messages that appear but they should not impact the ability to the run the tests.
 4. Run "npm test".
 
-Code Coverage we were able to achieve (having issues running the code coverage again):
-## Figure X: Automated Test Coverage Report
-![img](images/coverage.png)
+In determining what aspects of Dub Dumps we wanted to test, we decided to test the **StructuredSearch** and **BathroomList** components. A majority of the logic found in the Dub Dumps web app is between these two components, so we used this as justification for what required the most testing. For clarification before we discuss the tests we wrote, it is important to understand each component's function.
+- The **StructuredSearch** component is the search bar that allows users to filter the list of bathrooms by building, floor, and/or location.
+- The **BathroomList** component contains the function that renders a single card, as well as the exported function that determines the list of cards that should be rendered given the data it intakes as props.
+
+Below is a list of the automated tests we wrote to test these components.
+
+### **StructuredSearch**
+**describe('Filters have correct default value')**
+- Building filter has correct default value: tests to make sure that the first time the component is rendered, there is no building value automatically being filtered for.
+- Floor filter has correct default value: tests to make sure that the first time the component is rendered, there is no floor value automatically being filtered for.
+- Location filter has correct default value: tests to make sure that the first time the component is rendered, there is no location value automatically being filtered for.
+
+**describe('Filter values can be changed')**
+- Building filter can be changed: tests to make sure that when a user selects something from the Building dropdown, the dropdown's value is changed to what was selected.
+- Floor filter can be changed: tests to make sure that when a user selects something from the Floor dropdown, the dropdown's value is changed to what was selected.
+- Location filter can be changed: tests to make sure that when a user selects something from the Location dropdown, the dropdown's value is changed to what was selected.
+
+**describe('Filters work correctly')**
+- Button functions correctly: tests to make sure that when the "Search! button is clicked, the state for each filter is updated.
+- Building filter works correctly: tests to make sure that when the Building dropdown is changed and "Search!" has been clicked, the cards in the BathroomList component are filtered accordingly.
+- Floor filter works correctly: tests to make sure that when the Floor dropdown is changed and "Search!" has been clicked, the cards in the BathroomList component are filtered accordingly.
+- Location filter works correctly: tests to make sure that when the Location dropdown is changed and "Search!" has been clicked, the cards in the BathroomList component are filtered accordingly.
+
+### **BathroomList**
+**describe('Unit: BathroomList')**
+- No results message shows when there are no matching bathrooms: tests to make sure that when no bathrooms meet the user's search criteria, the user is shown the following message: No Bathrooms Found!
+- When no filters are applied, show all bathrooms: tests to make sure that the entire Bathroom List is shown by default, meaning when no filters have been applied.
+- Bathroom cards render correct image: tests to make sure that each bathroom card is rendered with its matching image.
+
+# Refactoring the Code
+As discussed previously, one of the major pieces of code that needed to be refactored was found in the **StructuredSearch** component. We previously discussed how the original code was inefficient due to the duplicated code and unnecessary loops. The solution we found was to create a function that used the native JavaScript `.map()` and `.filter()` methods, therefore achieving the same outcome in a more modifiable and readable format. 
+
+## Figure 5: Refactored StructuredSearch Logic
+```
+export function StructuredSearch(props) {
+    const [bldgSelected, setBldg] = useState('');
+    const [floorSelected, setFloor] = useState('');
+    const [locationSelected, setLocation] = useState('');
+
+    ...
+    
+    // Returns an array of content for a specific filter
+    function createFilterSet(contentType) {
+        const uniqueContent = props.data;
+            .map(item => item[contentType]);  // map to get an array of the specific content type
+            .filter((value, index, self) => self.indexOf(value) === index);  // filter to remove duplicates
+
+        return uniqueContent.map((contentType) => {
+            return <option key={contentType} value={contentType}>{contentType}</option>;
+        })
+    }
+
+    // Array of buildings
+    const buildings = createFilterSet("building");
+
+    // Array of floors
+    const floors = createFilterSet("floor");
+
+    // Array of locations
+    const locations = createFilterSet("location");
+    
+    ...
+}
+export default StructuredSearch;
+```
+The codeblock above is the new, refactored **StructuredSearch** code that implements the solutions previously discussed.
