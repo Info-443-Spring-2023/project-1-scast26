@@ -101,7 +101,7 @@ The codeblock above is the non-refactored code from the **StructuredSearch** com
     ```
     - Loops: The second, less apparent, code smell we found was an unnecessary loop. In the original code, the `for` loop was being used to loop through `props.data`, adding every unique attribute (building, floor, or location) to the previously defined Set. We later refactored this to completely remove the loop, and instead use native JavaScript methods such as `.map()` and `.filter()`. The refactored code can be found in the **Refactoring the Code** portion of this report.
 
-- **Documentation and Readability**: The lack of documentation and commented code makes understanding the structure of the code and how the components interact difficult. The following code component includes an example of code that lacks clarity and detail. There are const variables that don't have defined names which make understanding what this function does difficult:
+- **Documentation and Readability**: The lack of documentation and commented code makes understanding the structure of the code and how the components interact difficult. The following code component includes an example of code that lacks clarity and detail. There are const variables that don't have defined names which makes understanding what this function does difficult:
    ```
    export function StructuredSearch(props) {
     const [bldgSelected, setBldg] = useState('');
@@ -251,5 +251,5 @@ export default function BathroomList(props) {
     )
 }
 ```
-In terms of refactoring the code by adding comments, the purpose of this was to provide more context for what the function of these js files are in the entirety of the React App. The BathroomList.js and StructureSearch.js files have scopes that only pertain to specific elements of the HTML page. Adding comments that define what variables are used for can be helpful when modifying the code in the future. 
+In terms of refactoring the code by adding comments, the purpose of this was to provide more context for what the functions of these js files are in the entirety of the React App. The BathroomList.js and StructureSearch.js files have scopes that only pertain to specific elements of the HTML page. Adding comments that define what variables are used can be helpful when modifying the code in the future. 
 
