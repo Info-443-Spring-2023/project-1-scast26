@@ -146,16 +146,23 @@ Below is a list of the automated tests we wrote to test these components.
 
 ### **StructuredSearch**
 **describe('Filters have correct default value')**
+
+We wrote this set of tests to make sure that whenever the componenet is rendered for the first time, there were no filters automatically being applied. If there were, this would impact what was rendered by the BathroomList component.
+
 - Building filter has correct default value: tests to make sure that the first time the component is rendered, there is no building value automatically being filtered for.
 - Floor filter has correct default value: tests to make sure that the first time the component is rendered, there is no floor value automatically being filtered for.
 - Location filter has correct default value: tests to make sure that the first time the component is rendered, there is no location value automatically being filtered for.
 
 **describe('Filter values can be changed')**
+We wrote these tests to ensure that when a user changes the value of the filter in the frontend, this value change is communicated to the backend logic and therefore, behaves as intended.
 - Building filter can be changed: tests to make sure that when a user selects something from the Building dropdown, the dropdown's value is changed to what was selected.
 - Floor filter can be changed: tests to make sure that when a user selects something from the Floor dropdown, the dropdown's value is changed to what was selected.
 - Location filter can be changed: tests to make sure that when a user selects something from the Location dropdown, the dropdown's value is changed to what was selected.
 
 **describe('Filters work correctly')**
+
+Similar to our justification for the previous set of tests, these tests serve to ensure that the filters behave as intended, and so users are shown accurate information.
+
 - Button functions correctly: tests to make sure that when the "Search! button is clicked, the state for each filter is updated.
 - Building filter works correctly: tests to make sure that when the Building dropdown is changed and "Search!" has been clicked, the cards in the BathroomList component are filtered accordingly.
 - Floor filter works correctly: tests to make sure that when the Floor dropdown is changed and "Search!" has been clicked, the cards in the BathroomList component are filtered accordingly.
@@ -163,6 +170,9 @@ Below is a list of the automated tests we wrote to test these components.
 
 ### **BathroomList**
 **describe('Unit: BathroomList')**
+
+These various tests make sure that the bathroom cards are rendered as intended, including when no filters are applied, or when no bathrooms are found.
+
 - No results message shows when there are no matching bathrooms: tests to make sure that when no bathrooms meet the user's search criteria, the user is shown the following message: No Bathrooms Found!
 - When no filters are applied, show all bathrooms: tests to make sure that the entire Bathroom List is shown by default, meaning when no filters have been applied.
 - Bathroom cards render correct image: tests to make sure that each bathroom card is rendered with its matching image.
