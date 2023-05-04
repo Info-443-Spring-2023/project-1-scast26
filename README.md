@@ -101,30 +101,22 @@ The codeblock above is the non-refactored code from the **StructuredSearch** com
     ```
     - Loops: The second, less apparent, code smell we found was an unnecessary loop. In the original code, the `for` loop was being used to loop through `props.data`, adding every unique attribute (building, floor, or location) to the previously defined Set. We later refactored this to completely remove the loop, and instead use native JavaScript methods such as `.map()` and `.filter()`. The refactored code can be found in the **Refactoring the Code** portion of this report.
 
-- **Documentation and Readability**: The lack of documentation and commented code makes understanding the strcuture of the code and how the components interact difficult. The following code component includes an example of code that lacks clarity and detail. In fact, there are two const variables that don't have defined names which make understanding what this function does difficult:
+- **Documentation and Readability**: The lack of documentation and commented code makes understanding the structure of the code and how the components interact difficult. The following code component includes an example of code that lacks clarity and detail. There are const variables that don't have defined names which make understanding what this function does difficult:
    ```
-   function App(props) {
-     const nullUser = { userId: null, userName: null };
+   export function StructuredSearch(props) {
+    const [bldgSelected, setBldg] = useState('');
+    const [floorSelected, setFloor] = useState('');
+    const [locationSelected, setLocation] = useState('');
+    ...
+   }
 
-     const [currentUser, setCurrentUser] = useState(nullUser);
-     const [displayedData, setData] = useState(props.data);
-
-     useEffect(() => {
-
-       const auth = getAuth();
-
-       onAuthStateChanged(auth, (firebaseUser) => {
-         if (firebaseUser) { //is defined, so "logged in"
-           firebaseUser.userId = firebaseUser.uid;
-           setCurrentUser(firebaseUser);
-         }
-         else { //not defined, so logged out
-           setCurrentUser(nullUser);
-         }
-       });
-     })
   ```
-    Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as when a user is logged in or logged out. However this is the only instance of documented code. Finding the connection between different components is difficult and requires manually searching through component files to determine the functionality and scope of each one. 
+    Overall, this code does not include enough with information regarding documentation or descriptions on how the code is structured or what the purpose of different sections are. There are a few inline comments that represent the difference between certain sections of code, such as what various arrays represent and how they interact with each other. StructuredSearch.js is more documented than BathroomList.js. 
+
+- **Standards Violations**:  Overall, there aren't any existing standards that this element violates. This is primarily because of the fact that there is no data being saved that is a privacy concern or violates any other guidelines such as FERPA or HIPAA. The only standard that could be improved on is is providing more specific descriptions for accessability tags to make the website more user friendly. 
+
+- **Design Quality Deficiencies**:  Regarding modifiability to the code, the BathroomList.js component is the most rigid in structure. This component only contains a return statement that provides the HTML components that are rendered on the webpage and a function called BathroomList(props) that returns the bathrooms that fit the search criteria. There aren’t many data structures in this file though, so adding code or modifying existing code wouldn’t be difficult as there isn’t much that would need to be restructured. As for StructuredSearch.js, there is more room for modifiability with the data structures and adding more functionality to the code. For instance, there could be new search categories and filters that could be added, which could be added as an array and then a HTML select component could be created for the new filter. Other than that, there aren’t any notable gaps for performance or robustness because of the nature of the data structures and what is returned by the files, and there aren’t any security concerns because there is no login information stored for this element. 
+
 
 # Automated Tests
 
@@ -214,3 +206,50 @@ export function StructuredSearch(props) {
 export default StructuredSearch;
 ```
 The codeblock above is the new, refactored **StructuredSearch** code that implements the solutions previously discussed.
+
+## Adding Accessability Tags
+To make the code more accessible and descriptive, we decided to add accessability tags when refactoring code. The following code snippets are examples of code that accessability tags that we added, labeled with aria labels. Some of these tags already existed in the code, however the naming convention lacked detail which made the tags not very useful so we decided to rename them. 
+
+```
+ <Navbar.Toggle aria-controls="responsive-navbar-filters-bathrooms" className="hamburger" />
+
+```
+Below are icons with labels that are more screen reader friendly with labels now added.
+```
+<StairsOutlinedIcon fontSize="medium" className="stairs my-auto" aria-label="Stairs icon before specified floor"/>
+```
+```
+ <ExploreOutlinedIcon fontSize="medium" className="compass my-auto" aria-label="Compass icon before specified location"/>
+```
+
+## Commenting Code
+
+The following code snippet represents the overall function comment that describes the variables listed at the top, what gets returned by the function, and any inline comments that cover code logic.
+
+```
+//'bathrooms' represents all the chosen bathrooms that get displayed on the bathroom search page based on the search filters that are applied
+// 'bathroomCards represent the actual cards that appear on the page 
+
+export default function BathroomList(props) {
+    let bathrooms = props.data;
+    let bathroomCards = bathrooms.map(bathroomData => {
+        return <BathroomCard key={bathroomData.id} bathroomData={bathroomData} />
+    })
+    if (bathroomCards.length === 0) {   //No bathrooms fit the search critera
+        return (
+            <div className="container">
+                <h2 className='map-title' data-testid='no-results'>No Bathrooms Found!</h2>
+            </div>
+        )
+    }
+    return (    //displays bathrooms fitting search criteria
+        <div className="container">
+            <div className="row">
+                {bathroomCards}
+            </div>
+        </div>
+    )
+}
+```
+In terms of refactoring the code by adding comments, the purpose of this was to provide more context for what the function of these js files are in the entirety of the React App. The BathroomList.js and StructureSearch.js files have scopes that only pertain to specific elements of the HTML page. Adding comments that define what variables are used for can be helpful when modifying the code in the future. 
+

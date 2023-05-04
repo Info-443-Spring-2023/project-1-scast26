@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Nav, Navbar } from "react-bootstrap";
 
+//'bldgSelected', 'floorSelected', and 'locationSelected' all are used to store the currently selected values for in the search
+// 'setBldg', 'setFloor', and 'setLocation' all are functions used to set the corresponding values using the useState() function to manage the state of these values
+// throughout the site
+
 export function StructuredSearch(props) {
     const [bldgSelected, setBldg] = useState('');
     const [floorSelected, setFloor] = useState('');
@@ -45,9 +49,10 @@ export function StructuredSearch(props) {
 
 
     return (
+    //returns the nav bars used to select the builidng, floor, or location, and the search button 
         <div data-testid="search-wrapper">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" className="hamburger" />
+                <Navbar.Toggle aria-controls="responsive-navbar-filters-bathrooms" className="hamburger" />
                 <Navbar.Collapse id="responsive-navbar-nav navBar">
                     <Nav className="mr-auto">
                         <select id="buildingSelect" className="navDropDown" data-testid='buildingSelect' onChange={changeBldg} >
